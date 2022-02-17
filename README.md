@@ -1,12 +1,6 @@
 # Ticketing App
 Provides services for buyers and sellers of tickets for sports, concerts, theater and other live entertainment events.
 
-## Design
-<img src='https://user-images.githubusercontent.com/53744971/154432135-bd3d116d-1a00-475e-a490-be849607266f.jpg' width='600' /> <br/>
-```
-Here common refers to a npm custom build library by us, which will be shared with all the services
-```
-
 ## Features
 - Production grade authentication service
 - Sellers can list their tickets
@@ -16,6 +10,12 @@ Here common refers to a npm custom build library by us, which will be shared wit
 - During that 15 minutes window no one can buy the ticket
 - Handles the case when buyer buy the ticket and seller at the same time increases the price of the ticket
 - Production grade payment service
+
+## Design
+<img src='https://user-images.githubusercontent.com/53744971/154432135-bd3d116d-1a00-475e-a490-be849607266f.jpg' width='600' /> <br/>
+```
+Here common refers to a npm custom build library by us, which will be shared with all the services
+```
 
 ## Tech Stack
 - `Next.js`
@@ -33,6 +33,14 @@ Here common refers to a npm custom build library by us, which will be shared wit
 - `orders`: Order creation/editing
 - `expiration`: Watches for order to be created, cancels them after 15 minutes
 - `payments`: Handles credit card payments. Cancels order if payments fails, completes if payment succeeds
+
+*Auth*
+|Route|Method|Body|Purpose|
+|:--------:|:--------:|:--------:|:--------:|
+|api/users/signup|POST|{email: string, password: string}|Signup for an account|
+|api/users/signin|POST|{email: string, password: string}|Signin to an existing account|
+|api/users/signout|POST|{}|Signout of an account|
+|api/users/currentuser|GET|-|Return info about the user|
 
 ## Schema
 - *User*
