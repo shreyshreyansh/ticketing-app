@@ -1,0 +1,9 @@
+import express from 'express';
+import { json } from 'body-parser';
+
+const app = express();
+app.use(json());
+
+app.listen('3000', () => {
+    console.log(`\u001b[32mListening on port 3000!\u001b[0m`);
+});
