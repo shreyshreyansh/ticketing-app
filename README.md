@@ -1,6 +1,12 @@
 # Ticketing App
 Provides services for buyers and sellers of tickets for sports, concerts, theater and other live entertainment events.
 
+## Design
+<img src='https://user-images.githubusercontent.com/53744971/154432135-bd3d116d-1a00-475e-a490-be849607266f.jpg' width='600' /> <br/>
+```
+Here common refers to a npm custom build library by us, which will be shared with all the services
+```
+
 ## Features
 - Production grade authentication service
 - Sellers can list their tickets
@@ -12,10 +18,14 @@ Provides services for buyers and sellers of tickets for sports, concerts, theate
 - Production grade payment service
 
 ## Tech Stack
-- `Typescript`
+- `Next.js`
 - `Node.js`
 - `Express.js`
+- `Mongodb`
+- `Redis`
+- `NATS`
 - `Stripe.js`
+- `Typescript`
 
 ## Services
 - `auth`: Everything related to user signup/signin/signout
@@ -25,4 +35,39 @@ Provides services for buyers and sellers of tickets for sports, concerts, theate
 - `payments`: Handles credit card payments. Cancels order if payments fails, completes if payment succeeds
 
 ## Schema
-![Screenshot 2022-02-17 130943](https://user-images.githubusercontent.com/53744971/154428157-46a28bc1-9eff-423e-bc14-9cac13ac0646.jpg)
+- *User*
+  |   Name   |   Type   |
+  |:--------:|:--------:|
+  |  email   |  string  |
+  | password |  string  |
+
+- *Ticket*
+  |   Name   |   Type   |
+  |:--------:|:--------:|
+  |  title   |  string  |
+  |  price   |  number  |
+  |  userId   |  Ref to User  |
+  |  orderId   |  Ref to Order  |
+
+- *Order*
+  |   Name   |   Type   |
+  |:--------:|:--------:|
+  |  userId   |  Ref to User  |
+  |  status   |  Created, Cancelled, Awaiting payment, Completed  |
+  |  ticketId   |  Ref to Ticket  |
+  |  expiresAt   |  Date  |
+
+- *Charge*
+  |   Name   |   Type   |
+  |:--------:|:--------:|
+  |  orderId   |  Ref to Order  |
+  |  status   |  Created, Failed, Completed  |
+  | amount | number|
+  |  stripeId   |  string  |
+  |  stripeRefundId   |  string  |
+
+## Events
+- `UserCreated` `UserUpdated`
+- `OrderCreated` `OrderCancelled` `OrderExpired`
+- `TicketCreated` `TicketUpdated`
+- `ChargeCreated`
