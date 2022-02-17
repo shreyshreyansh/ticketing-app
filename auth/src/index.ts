@@ -5,5 +5,5 @@ const app = express();
 app.use(json());
 
 app.listen('3000', () => {
-    console.log(`\u001b[32mListening on port 3000!\u001b[0m`);
+    console.log(`\u001b[32mAuth listening on port 3000!\u001b[0m`);
 });
