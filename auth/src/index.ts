@@ -4,6 +4,10 @@ import { json } from 'body-parser';
 const app = express();
 app.use(json());
 
+app.get('/api/users/currentuser', (req, res) => {
+    res.send('Hello world!');
+})
+
 app.listen('3000', () => {
     console.log(`\u001b[32mAuth listening on port 3000!\u001b[0m`);
 });
