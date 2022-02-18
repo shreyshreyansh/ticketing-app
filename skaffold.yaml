@@ -1,17 +1,26 @@
 apiVersion: skaffold/v2alpha3
 kind: Config
+# Describes which directory to watch for all config files
+# Starting skaffold will create all the objects from those config files
 deploy:
   kubectl:
     manifests:
       - ./infra/k8s/*
+# Describes how to build with skaffold
 build:
+  # Describes not to push the changed images to Dockerhub (which is the default feature)
   local:
     push: false
+  # Describes something inside our project that it needs to be maintained
   artifacts:
+    # Describes to create an image using the Dockerfile inside the auth directory with
+    # image name as shreyanshshrey/ticketing-app-auth
     - image: shreyanshshrey/ticketing-app-auth
       context: auth
       docker:
         dockerfile: Dockerfile
+      # Describes that whenever there is changes in one of the 'src/**/*.ts' files, we do not
+      # need to build image from scratch and throw the changes directly into the pod
       sync:
         manual:
           - src: 'src/**/*.ts'
