@@ -79,3 +79,9 @@ Here common refers to a npm custom build library by us, which will be shared wit
 - `OrderCreated` `OrderCancelled` `OrderExpired`
 - `TicketCreated` `TicketUpdated`
 - `ChargeCreated`
+
+## GCP Integration
+- when we make changes in the `synced` files <br/>
+<img src='https://user-images.githubusercontent.com/53744971/154624748-b23ef477-5a05-4da3-8366-42cb6aece326.jpg' width='600' /> <br/>
+- when we make changes in the `unsynced` files <br/>
+<img src='https://user-images.githubusercontent.com/53744971/154624908-d449959b-341c-4809-ae53-5a56daa90589.jpg' width='600' /> <br/>
