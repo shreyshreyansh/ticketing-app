@@ -1,19 +1,29 @@
+# config file for the ingress-controller inside the cluster
+# it has all the routing rules for the load balancer
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress-service
+  # annotations section helps the ingress controller in discovering the ingress config file
   annotations:
+    # ingress controller continuously scans the cluster for an annotation
     kubernetes.io/ingress.class: nginx
+    # another annotation to instruct ingress controller that we will be using regex in routing
     nginx.ingress.kubernetes.io/use-regex: 'true'
+# Describes spec of the ingress service
 spec:
+  # Describes the routing rules for all the hosts (apps) inside our cluster
   rules:
     - host: ticketing.dev
+      # Describes rules for all the http request to the given host
       http:
+        # based on the sub part of the URL, appropriate clusterIP will be communicated
         paths:
           - path: /api/users/?(.*)
             pathType: Prefix
             backend:
               service:
                 name: auth-srv
+                # Describes the exposed port on the clusterIP
                 port:
                   number: 3000
