@@ -1,28 +1,45 @@
 apiVersion: apps/v1
 kind: Deployment
+# Define the Deployment Metadata
 metadata:
   name: auth-depl
+# Define the specs of the Deployment
 spec:
+  # How many copies of each pod do we want?
   replicas: 1
+  # Which pods are managed by this deployment?
   selector:
+    # This must match the labels we set on the pod!
     matchLabels:
       app: auth
+  # This template field is a regular pod configuration
+  # nested inside the deployment spec
   template:
     metadata:
+      # Set labels on the pod.
+      # This is used in the deployment selector.
       labels:
         app: auth
+    # Each pod will have containers of the specified spec
+    # Here there is only one container for each pod
     spec:
       containers:
         - name: auth
           image: shreyanshshrey/ticketing-app-auth
 ---
+# In this project we have a one-to-one relation between a deployment and a Service for each microservice
+# therefore we have use a single file for the auth deployment and its clusterIP service
 apiVersion: v1
 kind: Service
+# Define the ClusterIP metadata
 metadata:
   name: auth-srv
+# Define the ClusterIP spec
 spec:
+  # It targets on any pod with the given label
   selector:
     app: auth
+  # Open port 3000 on the itself as well as on the targetPort i.e, on the pod
   ports:
     - name: auth
       protocol: TCP
