@@ -6,6 +6,8 @@ import { signinRouter } from './routes/signin';
 import { signoutRouter } from './routes/signout';
 import { signupRouter } from './routes/signup';
 
+import { errorHandle } from './middlewares/error-handler';
+
 const app = express();
 app.use(json());
 
@@ -14,6 +16,7 @@ app.use(signinRouter);
 app.use(signoutRouter);
 app.use(signupRouter);
 
+app.use(errorHandle);
 
 app.listen('3000', () => {
     console.log(`\u001b[32mAuth listening on port 3000!\u001b[0m`);
