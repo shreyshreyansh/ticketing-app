@@ -85,3 +85,11 @@ Here common refers to a npm custom build library by us, which will be shared wit
 <img src='https://user-images.githubusercontent.com/53744971/154624748-b23ef477-5a05-4da3-8366-42cb6aece326.jpg' width='600' /> <br/>
 - when we make changes in the `unsynced` files <br/>
 <img src='https://user-images.githubusercontent.com/53744971/154624908-d449959b-341c-4809-ae53-5a56daa90589.jpg' width='600' /> <br/>
+
+## Error Handling!
+- we will make two classes `RequestValidationError` and `DatabaseConnectionError` which will extend to the `Error` class and so that they can add custom features to the `Error` class like reason of the error and message to show regarding the error
+- inside the `error-handler` middleware we will check if it is invoked due to the `RequestValidationError` or `DatabaseConnectionError`, and based on the error type it will send custom messages to the client
+<img src='https://user-images.githubusercontent.com/53744971/154793278-468bc44c-d13c-4f44-953d-1a29b9a711ca.jpg' width='600' /> <br/>
+
+
+
