@@ -111,3 +111,6 @@ NOTE: on abstract class
 - used to setup requirements for subclasses
 - when we compile TS to JS, we end up with a class definition in JS from abstract class in TS unlike an interface as it does not exist in JS 
 ```
+
+## Signup Flow
+<img src='https://user-images.githubusercontent.com/53744971/154844948-9d9079c9-6fbc-4d59-b956-cfa830ccfee9.jpg' width='800' /> <br/>
