@@ -1,4 +1,8 @@
 import express from 'express';
+
+// make sure to import it after express
+import 'express-async-errors';
+
 import { json } from 'body-parser';
 
 import { currentuserRouter } from './routes/current-user';
@@ -25,6 +29,29 @@ app.all('*', () => {
   // get the reponse
   throw new NotFoundError();
 });
+
+/**
+   If synchronous code throws an error, then Express will catch and process it
+   but if the function in the app.all function is async then throwing an error,
+   will not be caught by express
+   app.all('*', async() => {
+    throw new NotFoundError(); // breaks the app
+   });
+
+   For errors returned from asynchronous functions invoked by route handlers and 
+   middleware, you must pass them to the next() function, where Express will catch 
+   and process them.
+   app.all('*', async(req, res, next) => {
+    next(new NotFoundError());
+   })
+
+   If you don't want to use next function to pass the error to Express, we can use
+   a package that will handle errors in an async function 'express-async-errors' and 
+   it is easy to use. It takes care of the error behind the scene
+   app.all('*', async() => {
+    throw new NotFoundError(); // will not break the app
+   });
+ */
 
 app.use(errorHandler);
 
