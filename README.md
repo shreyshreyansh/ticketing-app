@@ -1,5 +1,5 @@
 # Ticketing App
-Provides services for buyers and sellers of tickets for sports, concerts, theater and other live entertainment events.
+A microservice architecture that provides services for buyers and sellers of tickets for sports, concerts, theater and other live entertainment events.
 
 ## Features
 - Production grade authentication service
