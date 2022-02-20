@@ -4,13 +4,23 @@
  */
 import { Request, Response, NextFunction } from 'express';
 
+import { RequestValidationError } from '../errors/request-validation-error';
+import { DatabaseConnectionError } from '../errors/database-connection-error';
+
 export const errorHandle = (
   err: Error,
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  console.log('something went wrong', err);
+  // type checking the error
+  if (err instanceof RequestValidationError) {
+    console.log('handling this error as a request validation error');
+  }
+
+  if (err instanceof DatabaseConnectionError) {
+    console.log('handling this error as a database connection error');
+  }
   // err.message will have the string we gave while throwing
   // the error function
   res.status(400).send({
