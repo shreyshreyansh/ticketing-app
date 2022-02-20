@@ -22,8 +22,8 @@ export class RequestValidationError extends CustomError {
    */
   statusCode = 400;
 
-  constructor(private errors: ValidationError[], message: string) {
-    super(message);
+  constructor(private errors: ValidationError[]) {
+    super('Invalid input');
 
     // this line is only because we are extending to a built-in class
     Object.setPrototypeOf(this, RequestValidationError.prototype);

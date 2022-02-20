@@ -25,12 +25,12 @@ router.post(
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       // this will automatically be picked by the error handler middleware
-      throw new RequestValidationError(errors.array(), 'Invalid input');
+      throw new RequestValidationError(errors.array());
     }
     const { email, password } = req.body;
 
     // manually testing if the custom error works
-    throw new DatabaseConnectionError('Database connection error');
+    throw new DatabaseConnectionError();
     res.send({ msg: 'Hi there!' });
   }
 );
