@@ -17,7 +17,7 @@ export class RequestValidationError extends Error {
    *    this.errors = errors;
    * }
    */
-  constructor(private errors: ValidationError[]) {
+  constructor(public errors: ValidationError[]) {
     super();
 
     // this line is only because we are extending to a built-in class

@@ -14,16 +14,44 @@ export const errorHandle = (
   next: NextFunction
 ) => {
   // type checking the error
+  // handling this error as a request validation error
   if (err instanceof RequestValidationError) {
-    console.log('handling this error as a request validation error');
+    // formating the validation error to the common error response which is:
+    /**
+     * {
+          errors: {
+            message: string,
+            field?: string
+          }[]
+        }
+     */
+    const formattedErrors = err.errors.map((error) => {
+      return {
+        message: error.msg,
+        field: error.param,
+      };
+    });
+
+    return res.status(400).send({ errors: formattedErrors });
   }
 
+  // handling this error as a database connection error
   if (err instanceof DatabaseConnectionError) {
-    console.log('handling this error as a database connection error');
+    // database connection is an internal server error
+    return res.status(500).send({
+      errors: [
+        {
+          message: err.reason,
+        },
+      ],
+    });
   }
-  // err.message will have the string we gave while throwing
-  // the error function
+  // some generic error
   res.status(400).send({
-    message: err.message,
+    errors: [
+      {
+        message: 'Something went wrong',
+      },
+    ],
   });
 };
