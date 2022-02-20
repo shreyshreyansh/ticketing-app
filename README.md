@@ -91,5 +91,15 @@ Here common refers to a npm custom build library by us, which will be shared wit
 - inside the `error-handler` middleware we will check if it is invoked due to the `RequestValidationError` or `DatabaseConnectionError`, and based on the error type it will send custom messages to the client
 <img src='https://user-images.githubusercontent.com/53744971/154793278-468bc44c-d13c-4f44-953d-1a29b9a711ca.jpg' width='600' /> <br/>
 
+### Error Response
+- All error response that we send out from our server will have this structure
+```
+{
+  errors: {
+    message: string,
+    field?: string
+  }[]
+}
+```
 
 
