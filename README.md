@@ -102,4 +102,12 @@ Here common refers to a npm custom build library by us, which will be shared wit
 }
 ```
 
-
+### Custom Errors Verification
+- All the error classes like `RequestValidationError` and `DatabaseConnectionError` should contain a `statusCode` variable and a `serializeErrors` method.
+- To ensure all error classes *stick to the rule* we will make a **CustomError Abstract Class**
+```
+NOTE: on abstract class
+- cannot be instantiated
+- used to setup requirements for subclasses
+- when we compile TS to JS, we end up with a class definition in JS from abstract class in TS unlike an interface as it does not exist in JS 
+```
