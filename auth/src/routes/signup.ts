@@ -4,7 +4,7 @@ import { body, validationResult } from 'express-validator';
 import { User } from '../models/user';
 
 import { RequestValidationError } from '../errors/request-validation-error';
-import { DatabaseConnectionError } from '../errors/database-connection-error';
+import { BadRequestError } from '../errors/bad-request-error';
 
 const router = express.Router();
 
@@ -45,8 +45,7 @@ router.post(
     // STEP 2
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      console.log('Email in use');
-      return res.send({});
+      throw new BadRequestError('Email in use');
     }
 
     // STEP 4
