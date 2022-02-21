@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 
+import { Password } from '../services/password';
+
 // An interface that describes the properties that are
 // required to create a new User
 // (what it takes to create a user)
@@ -89,6 +91,20 @@ const userSchema = new mongoose.Schema({
     animals = animals.concat(await Animal.findByBreed('Poodle'));
     ---
  */
+
+// mongoose pre save hook to hash the password before storing it into the database
+userSchema.pre('save', async function (done) {
+  // use case: this function will run even if we update an existing customer in the collection
+  // so if the user changes the email, we will again hash the hashed password therefore we will
+  // first check if the user's password is modified then only do the hashing
+  if (this.isModified('password')) {
+    const hashed = await Password.toHash(this.get('password'));
+    this.set('password', hashed);
+  }
+  // as mongoose is an old library it does not handle async await therefore it provides us with a
+  // callback function done to know when the function is over
+  done();
+});
 
 // we will call this function from our model every time we will create a new user
 // instead of using plain new User(), because using the function we can

@@ -48,6 +48,7 @@ router.post(
       throw new BadRequestError('Email in use');
     }
 
+    // STEP 3
     // STEP 4
     const user = User.build({
       email,
