@@ -114,3 +114,9 @@ NOTE: on abstract class
 
 ## Signup Flow
 <img src='https://user-images.githubusercontent.com/53744971/154844948-9d9079c9-6fbc-4d59-b956-cfa830ccfee9.jpg' width='800' /> <br/>
+
+## MongoDB User Collection
+- `Mongoose User Model` represents the entire collection of users
+- `Mongoose User Document` represents one single user <br/>
+<img src='https://user-images.githubusercontent.com/53744971/154901624-8539d931-1a3f-4baf-9c2d-6e6ca2880d6f.jpg' width='600' /> <br/>
+
