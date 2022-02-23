@@ -7,6 +7,8 @@ import { json } from 'body-parser';
 
 import mongoose from 'mongoose';
 
+import cookieSession from 'cookie-session';
+
 import { currentuserRouter } from './routes/current-user';
 import { signinRouter } from './routes/signin';
 import { signoutRouter } from './routes/signout';
@@ -16,7 +18,44 @@ import { errorHandler } from './middlewares/error-handler';
 import { NotFoundError } from './errors/not-found-error';
 
 const app = express();
+
+// as traffic is being proxied to our app through ingress nginx
+// express will see the fact that the stuff is being proxied.
+// So by default express will not trust the proxy are it will not
+// use the cookie-session middleware and we have passed the option
+// 'secure: true'. So to use the middleware here we have to trust
+// the proxy
+app.set('trust proxy', true);
+
 app.use(json());
+
+// new cookie session middleware with the provided options
+// this middleware will attach the property session to req,
+// which provides an object representing the loaded session
+
+// middleware will automatically add a Set-Cookie header to
+// the response if the contents of req.session were altered
+
+// =========================NOTE=============================
+/*
+  No Set-Cookie header will be in the response (and thus no 
+  session created for a specific user) unless there are contents 
+  in the session, so be sure to add something to req.session as 
+  soon as you have identifying information to store for the session.
+*/
+//===========================================================
+app.use(
+  cookieSession({
+    // as JWT inside is already encrypted and we don't have any
+    // other naked secrets inside it, therefore we do not
+    // encryt our cookie.
+    // Advantage of this is that service written in a different language
+    // can use the cookie without worrying about the decryption.
+    signed: false,
+    // use cookies only if users are connnecting over an HTTPS connection
+    secure: true,
+  })
+);
 
 app.use(currentuserRouter);
 app.use(signinRouter);
