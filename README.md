@@ -133,3 +133,7 @@ NOTE: on abstract class
 ```
 kubectl create secret generic jwt-secret --from-literal=jwt=asdf
 ```
+
+## Signin Flow
+<img src='https://user-images.githubusercontent.com/53744971/155291547-7f02a078-e1c3-497f-9334-b244f8e73c89.jpg' width='800' /> <br/>
+
