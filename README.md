@@ -125,3 +125,11 @@ NOTE: on abstract class
 <img src='https://user-images.githubusercontent.com/53744971/155264598-315fd270-a753-4590-8a05-eb87048fb86a.jpg' width='600' /> <br/>
 - Because we're using `Next.js`, we're conducting server-side rendering, which means that if we want the client's initial request to include a JWT token, we'll have to rely on cookies <br/>
 <img src='https://user-images.githubusercontent.com/53744971/155265164-5cfbbfbb-d2d0-47f3-8cef-f3753bc8ee7e.jpg' width='600' /> <br/>
+
+## Storing secrets in K8s cluster
+- In our Kubernetes cluster, we build an object called `secret` that contains multiple key-value combinations and is shared across all pods through environment variables.<br/>
+<img src='https://user-images.githubusercontent.com/53744971/155273850-c995e808-ff71-47c6-b1ca-bd15e5d285fc.jpg' width='600' /> <br/>
+- Creating a secret object (imperative)
+```
+kubectl create secret generic jwt-secret --from-literal=jwt=asdf
+```
