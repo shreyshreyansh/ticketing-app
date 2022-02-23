@@ -120,3 +120,8 @@ NOTE: on abstract class
 - `Mongoose User Document` represents one single user <br/>
 <img src='https://user-images.githubusercontent.com/53744971/154901624-8539d931-1a3f-4baf-9c2d-6e6ca2880d6f.jpg' width='600' /> <br/>
 
+## Auth Mechanism
+- We will be using JWT with cookies for our auth mechanism <br/>
+<img src='https://user-images.githubusercontent.com/53744971/155264598-315fd270-a753-4590-8a05-eb87048fb86a.jpg' width='600' /> <br/>
+- Because we're using `Next.js`, we're conducting server-side rendering, which means that if we want the client's initial request to include a JWT token, we'll have to rely on cookies <br/>
+<img src='https://user-images.githubusercontent.com/53744971/155265164-5cfbbfbb-d2d0-47f3-8cef-f3753bc8ee7e.jpg' width='600' /> <br/>
