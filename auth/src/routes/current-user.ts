@@ -1,5 +1,7 @@
 import express from 'express';
 
+import { currentUser } from '../middlewares/current-user';
+
 import jwt from 'jsonwebtoken';
 
 const router = express.Router();
@@ -13,22 +15,14 @@ const router = express.Router();
   3. If yes and jwt is valid then send back the info stored into the Jwt. Response ==> { currentUser: { id: '...', email: '...' } }
 */
 
-router.get('/api/users/currentuser', (req, res) => {
+router.get('/api/users/currentuser', currentUser, (req, res) => {
   /*
   if(!req.session || !req.session.jwt)
   is equivalent to
   if(!req.session?.jwt)
   */
-  if (!req.session?.jwt) {
-    return res.status(401).send({ currentUser: null });
-  }
-
-  try {
-    const payload = jwt.verify(req.session.jwt, process.env.JWT_KEY!);
-    return res.status(200).send({ currentUser: payload });
-  } catch (err) {
-    return res.status(401).send({ currentUser: null });
-  }
+  // if req.currentUser is undefined (not logged in) then { currentUser: null }
+  res.send({ currentUser: req.currentUser || null });
 });
 
 export { router as currentuserRouter };
