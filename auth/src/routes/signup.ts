@@ -72,6 +72,14 @@ router.post(
     // Store JWT on session object provided by cookie-session middleware
     req.session = { jwt: userJwt };
 
+    //=============NOTE=============
+    /*
+      we will get a cookie in response which will be the base64 encoded version
+      of '{ jwt: userJwt }' object. Decoding this object on https://www.base64decode.org/
+      we will get the actual JWT token
+    */
+    //==============================
+
     res.status(201).send(user);
   }
 );
