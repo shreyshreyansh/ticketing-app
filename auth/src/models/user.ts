@@ -36,19 +36,44 @@ interface UserDoc extends mongoose.Document {
   // createdAt: string;
   // updatedAt: string;
 }
-const userSchema = new mongoose.Schema({
-  email: {
-    // this type is NOT for typescript
-    // it is for the mongoose (notice the capital 's')
-    // here String is refering to an actual constructor
-    type: String,
-    required: true,
+const userSchema = new mongoose.Schema(
+  {
+    email: {
+      // this type is NOT for typescript
+      // it is for the mongoose (notice the capital 's')
+      // here String is refering to an actual constructor
+      type: String,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
   },
-  password: {
-    type: String,
-    required: true,
-  },
-});
+  {
+    // mongoose will use this to covert its object to json
+    // therefore we can customize it to the response we want
+    // to give to the client
+    toJSON: {
+      /**
+       *
+       * @param doc The mongoose document which is being converted
+       * @param ret The plain object representation which has been converted
+       */
+      transform(doc, ret) {
+        // we don't want to show password property in any JSON representation
+        delete ret.password;
+
+        // we don't want to show version property in any JSON representation
+        delete ret.__v;
+
+        // renaming _id to id
+        ret.id = ret._id;
+        delete ret._id;
+      },
+    },
+  }
+);
 
 /**
  * 
