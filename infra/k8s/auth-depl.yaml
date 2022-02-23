@@ -26,6 +26,17 @@ spec:
       containers:
         - name: auth
           image: shreyanshshrey/ticketing-app-auth
+          # List all env variable we are going to use on this container
+          env:
+            # Name of the env variable inside the container
+            - name: JWT_KEY
+              # Value of the env variable
+              valueFrom:
+                secretKeyRef:
+                  # name of the secret
+                  name: jwt-secret
+                  # keys inside of the secret
+                  key: JWT_KEY
 ---
 # In this project we have a one-to-one relation between a deployment and a Service for each microservice
 # therefore we have use a single file for the auth deployment and its clusterIP service

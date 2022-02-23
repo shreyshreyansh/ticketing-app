@@ -66,7 +66,10 @@ router.post(
         id: user.id,
         email: user.email,
       },
-      'test'
+      // adding a `!` says to the TS that we pretty much know what we are doing
+      // you don't need to worry about accessing the undefined part 😎 as we have
+      // checked if the process.env.JWT_KEY is defined at the start of the app
+      process.env.JWT_KEY!
     );
 
     // Store JWT on session object provided by cookie-session middleware
