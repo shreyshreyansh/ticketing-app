@@ -1,10 +1,10 @@
 import express, { Request, Response } from 'express';
-import { body, validationResult } from 'express-validator';
+import { body } from 'express-validator';
 import jwt from 'jsonwebtoken';
 
 import { User } from '../models/user';
 
-import { RequestValidationError } from '../errors/request-validation-error';
+import { validateRequest } from '../middlewares/validate-request';
 import { BadRequestError } from '../errors/bad-request-error';
 
 const router = express.Router();
@@ -23,6 +23,7 @@ router.post(
       .isLength({ min: 4, max: 20 })
       .withMessage('Password must be between 4 and 20 characters!'),
   ],
+  validateRequest,
   async (req: Request, res: Response) => {
     /**
      * STEPS:
@@ -34,12 +35,7 @@ router.post(
      */
 
     // STEP 1
-    // we can find the result of the validation middleware by calling the validationResult function
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      // this will automatically be picked by the error handler middleware
-      throw new RequestValidationError(errors.array());
-    }
+    // handled by the validateRequest middleware
 
     const { email, password } = req.body;
 

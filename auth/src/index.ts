@@ -68,7 +68,7 @@ app.all('*', () => {
   // as soon as it throws a not found error, express will capture the
   // error and throw it to the errorHandler as through that the user will
   // get the reponse
-  throw new NotFoundError();
+  throw new NotFoundError('Route not found');
 });
 
 /**
