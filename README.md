@@ -135,5 +135,8 @@ kubectl create secret generic jwt-secret --from-literal=jwt=asdf
 ```
 
 ## Signin Flow
-<img src='https://user-images.githubusercontent.com/53744971/155291547-7f02a078-e1c3-497f-9334-b244f8e73c89.jpg' width='800' /> <br/>
+<img src='https://user-images.githubusercontent.com/53744971/155291547-7f02a078-e1c3-497f-9334-b244f8e73c89.jpg' width='600' /> <br/>
 
+## Current User Flow
+- This route is used to check if the user accessing the resources is logged in <br/>
+<img src='https://user-images.githubusercontent.com/53744971/155298665-d5729d18-8290-4f32-81db-1cf3cb8ac908.jpg' width='600' /> <br/>
