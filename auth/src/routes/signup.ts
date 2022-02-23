@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import { body, validationResult } from 'express-validator';
+import jwt from 'jsonwebtoken';
 
 import { User } from '../models/user';
 
@@ -57,6 +58,20 @@ router.post(
     await user.save();
 
     // Simulating STEP 5
+
+    // Generate JWT (Synchronous)
+    // jwt.sign(payload, secretOrPrivateKey, [options, callback])
+    const userJwt = jwt.sign(
+      {
+        id: user.id,
+        email: user.email,
+      },
+      'test'
+    );
+
+    // Store JWT on session object provided by cookie-session middleware
+    req.session = { jwt: userJwt };
+
     res.status(201).send(user);
   }
 );
