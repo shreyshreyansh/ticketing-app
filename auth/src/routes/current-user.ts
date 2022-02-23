@@ -1,6 +1,7 @@
 import express from 'express';
 
 import { currentUser } from '../middlewares/current-user';
+import { requireAuth } from '../middlewares/require-auth';
 
 import jwt from 'jsonwebtoken';
 
@@ -15,7 +16,7 @@ const router = express.Router();
   3. If yes and jwt is valid then send back the info stored into the Jwt. Response ==> { currentUser: { id: '...', email: '...' } }
 */
 
-router.get('/api/users/currentuser', currentUser, (req, res) => {
+router.get('/api/users/currentuser', currentUser, requireAuth, (req, res) => {
   /*
   if(!req.session || !req.session.jwt)
   is equivalent to
