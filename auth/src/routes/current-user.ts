@@ -3,8 +3,6 @@ import express from 'express';
 import { currentUser } from '../middlewares/current-user';
 import { requireAuth } from '../middlewares/require-auth';
 
-import jwt from 'jsonwebtoken';
-
 const router = express.Router();
 
 // this route is used to check if the user accessing the resources
