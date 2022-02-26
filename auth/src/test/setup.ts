@@ -1,5 +1,6 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
+import request from 'supertest';
 
 /**
  * "if the server is not already listening for connections
@@ -11,6 +12,13 @@ import mongoose from 'mongoose';
  * random ephemeral port and we can overcome the port in use error
  */
 import { app } from '../app';
+
+// tell TS there is a global property called signup
+declare global {
+  // signup will be a function that returns a promise which
+  // will be resolved by an array of string (cookie)
+  var signup: () => Promise<string[]>;
+}
 
 import 'dotenv/config';
 
@@ -50,3 +58,18 @@ afterAll(async () => {
   // close the mongoose connection to the in-memory mongodb server
   mongoose.connection.close();
 });
+
+// declare a global function that can be used by any of the test files
+global.signup = async () => {
+  const email = 'test@test.com';
+  const password = 'password';
+
+  const response = await request(app)
+    .post('/api/users/signup')
+    .send({ email, password })
+    .expect(201);
+
+  const cookie = response.get('Set-Cookie');
+
+  return cookie;
+};
