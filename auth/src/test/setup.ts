@@ -12,13 +12,15 @@ import mongoose from 'mongoose';
  */
 import { app } from '../app';
 
+import 'dotenv/config';
+
 let mongo: any;
 
 // runs before all the test startup
 beforeAll(async () => {
   // We create a new instance of in-memory of copy mongodb server
   // each time we start the test server
-  mongo = new MongoMemoryServer();
+  mongo = await MongoMemoryServer.create();
 
   // get the URL of the in-memory mongodb created
   const mongoUri = mongo.getUri();

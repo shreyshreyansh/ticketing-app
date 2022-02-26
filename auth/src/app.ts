@@ -51,7 +51,8 @@ app.use(
     // can use the cookie without worrying about the decryption.
     signed: false,
     // use cookies only if users are connnecting over an HTTPS connection
-    secure: true,
+    // this tells that use secure: false when we are using test server
+    secure: process.env.NODE_ENV !== 'test',
   })
 );
 
