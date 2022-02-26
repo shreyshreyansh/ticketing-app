@@ -27,3 +27,11 @@ spec:
                 # Describes the exposed port on the clusterIP
                 port:
                   number: 3000
+          - path: /?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: client-srv
+                # Describes the exposed port on the clusterIP
+                port:
+                  number: 3000
