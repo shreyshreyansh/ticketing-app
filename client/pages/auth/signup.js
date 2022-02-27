@@ -1,24 +1,29 @@
 import { useState } from 'react';
-import axios from 'axios';
+import Router from 'next/router';
+import useRequest from '../../hooks/use-request';
 
 const signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState([]);
+  const { doRequest, errors } = useRequest({
+    url: '/api/users/signup',
+    method: 'post',
+    body: {
+      email,
+      password,
+    },
+    // a callback if the request is successful
+    onSuccess: () => {
+      // redirects to the landing page (index.js)
+      Router.push('/');
+    },
+  });
 
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = await axios.post('/api/users/signup', {
-        email,
-        password,
-      });
-
-      console.log(response.data);
-    } catch (err) {
-      setErrors(err.response.data.errors);
-    }
+    // calling the function inside the custom hook
+    await doRequest();
   };
 
   return (
@@ -41,16 +46,10 @@ const signup = () => {
           className="form-control"
         />
       </div>
-      {errors.length > 0 && (
-        <div className="alert alert-danger mt-2" role="alert">
-          <h4>Oops...</h4>
-          <ul className="my-0">
-            {errors.map((error) => (
-              <li key={error.message}>{error.message}</li>
-            ))}
-          </ul>
-        </div>
-      )}
+      {/**
+        calls the JSX of the custom hook
+       */}
+      {errors}
       <button className="btn btn-primary mt-2">Sign Up</button>
     </form>
   );
