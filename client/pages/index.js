@@ -1,4 +1,5 @@
 import axios from 'axios';
+import buildClient from '../api/build-client';
 
 const LandingPage = ({ currentUser }) => {
   console.log(currentUser);
@@ -31,9 +32,8 @@ const LandingPage = ({ currentUser }) => {
 // we cannot use hooks inside this function as it is a pure function
 // and hooks are used in components
 // therefore here we use axios instead of our useRequest hook
-LandingPage.getInitialProps = async ({ req }) => {
-  // here req is the request we fire from our browser to nextJS server
-  // it has the hostname, cookies attached, etc.
+LandingPage.getInitialProps = async (context) => {
+  // here context contains req, which is the request we fire from our browser to nextJS server
 
   /**
     Using axios.get('/api/users/currentuser') here will result in connect ECONNREFUSED 127.0.0.1:80 error
@@ -98,36 +98,18 @@ LandingPage.getInitialProps = async ({ req }) => {
     as window only exists inside the browser this will be undefined for server side
     if(window === undefined) {}
    */
-  if (typeof window === 'undefined') {
-    // we are on the server
-    //baseURL --> http://ingress-nginx-controller.ingress-nginx.svc.cluster.local
-    try {
-      const response = await axios.get(
-        'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/users/currentuser',
-        {
-          // passing the request of (browser --> client server) to (client server to ingress)
-          // i.e, hostname, cookies, etc
-          headers: req.headers,
-        }
-      );
-      return response.data;
-    } catch (err) {
-      // will catch when error is 401 (unauthorized)
-      console.log(err.message);
-    }
-    return { currentUser: null };
-  } else {
-    // we are on the client
-    // baseURL --> '' (done automatically by axios)
-    try {
-      const response = await axios.get('/api/users/currentuser');
-      return response.data;
-    } catch (err) {
-      // will catch when error is 401 (unauthorized)
-      console.log(err.message);
-    }
-    return { currentUser: null };
+
+  try {
+    const client = buildClient(context);
+
+    const { data } = await client.get('/api/users/currentuser');
+
+    return data;
+  } catch (err) {
+    // will catch when error is 401 (unauthorized)
+    console.log(err.message);
   }
+  return { currentUser: null };
 };
 
 export default LandingPage;
