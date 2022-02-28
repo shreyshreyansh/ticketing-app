@@ -1,5 +1,6 @@
 // very critical: the name of the file should be _app.js
 import 'bootstrap/dist/css/bootstrap.css';
+import buildClient from '../api/build-client';
 
 /**
  A react component, receives a props object which has two
@@ -30,6 +31,31 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 const customApp = ({ Component, pageProps }) => {
   return <Component {...pageProps} />;
+};
+
+// page components' getInitialProps recevies context === {req, res}
+// but app component getInitialProps recevies context === { Component, ctx: {req, res} }
+
+customApp.getInitialProps = (context) => {
+  try {
+    const client = buildClient(context.ctx);
+
+    const { data } = await client.get('/api/users/currentuser');
+
+    // whenever we tie getInitialProps to _app then getInitialProps for pages
+    // component do not get called automatically.
+    // So we manually invoke the other pages component's getInitialProps here.
+    let pageProps = {};
+    if (context.Component.getInitialProps) {
+      pageProps = await context.Component.getInitialProps(context.ctx);
+    }
+
+    return data;
+  } catch (err) {
+    // will catch when error is 401 (unauthorized)
+    console.log(err.message);
+  }
+  return { currentUser: null };
 };
 
 export default customApp;
