@@ -144,3 +144,7 @@ kubectl create secret generic jwt-secret --from-literal=jwt=asdf
 ## Testing
 ### Workflow
 <img src='https://user-images.githubusercontent.com/53744971/155828813-ac239c90-b571-47aa-8b8c-c6dd89a957d2.jpg' width='600' /> <br/>
+
+## Client
+### Component tree
+<img src='https://user-images.githubusercontent.com/53744971/156011878-e45edbb2-2bf4-4115-88c2-d6b4f6b67ad2.jpg' width='600' /> <br/>
