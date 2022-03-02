@@ -68,8 +68,8 @@ global.signup = () => {
 
   // Build a JWT payload. { id, email }
   const payload = {
-    id: 'test@test.com',
-    password: 'password',
+    id: new mongoose.Types.ObjectId().toHexString(), // generate random id
+    email: 'test@test.com',
   };
 
   // Use JWT KEY
