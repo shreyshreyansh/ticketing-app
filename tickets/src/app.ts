@@ -7,7 +7,10 @@ import { json } from 'body-parser';
 
 import cookieSession from 'cookie-session';
 
-import { errorHandler, NotFoundError } from '@k8stickets/common';
+import { errorHandler, NotFoundError, currentUser } from '@k8stickets/common';
+
+import { createTicketRouter } from './routes/new';
+import { showTicketRouter } from './routes/show';
 
 const app = express();
 
@@ -49,6 +52,11 @@ app.use(
     secure: process.env.NODE_ENV !== 'test',
   })
 );
+
+app.use(currentUser);
+
+app.use(createTicketRouter);
+app.use(showTicketRouter);
 
 // not found route
 // app.all represents GET, POST, PUT, PATCH, etc.

@@ -1,6 +1,7 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import request from 'supertest';
+import jwt from 'jsonwebtoken';
 
 /**
  * "if the server is not already listening for connections
@@ -17,7 +18,7 @@ import { app } from '../app';
 declare global {
   // signup will be a function that returns a promise which
   // will be resolved by an array of string (cookie)
-  var signup: () => Promise<string[]>;
+  var signup: () => string[];
 }
 
 import 'dotenv/config';
@@ -60,16 +61,29 @@ afterAll(async () => {
 });
 
 // declare a global function that can be used by any of the test files
-global.signup = async () => {
-  const email = 'test@test.com';
-  const password = 'password';
+global.signup = () => {
+  if (!process.env.JWT_KEY) {
+    throw new Error('JWT_KEY must be defined');
+  }
 
-  const response = await request(app)
-    .post('/api/users/signup')
-    .send({ email, password })
-    .expect(201);
+  // Build a JWT payload. { id, email }
+  const payload = {
+    id: 'test@test.com',
+    password: 'password',
+  };
 
-  const cookie = response.get('Set-Cookie');
+  // Use JWT KEY
+  const token = jwt.sign(payload, process.env.JWT_KEY!);
 
-  return cookie;
+  // Build Session Object { jwt: JWT_TOKEN }
+  const session = { jwt: token };
+
+  // Turn session into json
+  const sessionJSON = JSON.stringify(session);
+
+  // Take JSON and encode it as base64
+  const base64 = Buffer.from(sessionJSON).toString('base64');
+
+  // Returns a string thats the cookie with encoded data
+  return [`session=${base64}`];
 };
