@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 # Define the Deployment Metadata
 metadata:
-  name: auth-depl
+  name: tickets-depl
 # Define the specs of the Deployment
 spec:
   # How many copies of each pod do we want?
@@ -11,7 +11,7 @@ spec:
   selector:
     # This must match the labels we set on the pod!
     matchLabels:
-      app: auth
+      app: tickets
   # This template field is a regular pod configuration
   # nested inside the deployment spec
   template:
@@ -19,13 +19,13 @@ spec:
       # Set labels on the pod.
       # This is used in the deployment selector.
       labels:
-        app: auth
+        app: tickets
     # Each pod will have containers of the specified spec
     # Here there is only one container for each pod
     spec:
       containers:
-        - name: auth
-          image: shreyanshshrey/ticketing-app-auth
+        - name: tickets
+          image: shreyanshshrey/ticketing-app-tickets
           # List all env variable we are going to use on this container
           env:
             # Name of the env variable inside the container
@@ -38,7 +38,7 @@ spec:
                   # keys inside of the secret
                   key: JWT_KEY
             - name: MONGO_URI
-              value: 'mongodb://auth-mongo-srv:27017/auth'
+              value: 'mongodb://tickets-mongo-srv:27017/tickets'
 ---
 # In this project we have a one-to-one relation between a deployment and a Service for each microservice
 # therefore we have use a single file for the auth deployment and its clusterIP service
@@ -46,15 +46,15 @@ apiVersion: v1
 kind: Service
 # Define the ClusterIP metadata
 metadata:
-  name: auth-srv
+  name: tickets-srv
 # Define the ClusterIP spec
 spec:
   # It targets on any pod with the given label
   selector:
-    app: auth
+    app: tickets
   # Open port 3000 on the itself as well as on the targetPort i.e, on the pod
   ports:
-    - name: auth
+    - name: tickets
       protocol: TCP
       port: 3000
       targetPort: 3000

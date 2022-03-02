@@ -1,0 +1,35 @@
+# this is a mongodb deployment for the tickets microservice
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tickets-mongo-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tickets-mongo
+  template:
+    metadata:
+      labels:
+        app: tickets-mongo
+    spec:
+      containers:
+        # building image from the official image @ DockerHub
+        - name: tickets-mongo
+          image: mongo
+---
+# clusterIP service for the pods of tickets-mongo-depl
+apiVersion: v1
+kind: Service
+metadata:
+  name: tickets-mongo-srv
+spec:
+  # select all the pods with the app: tickets-mongo label
+  selector:
+    app: tickets-mongo
+  ports:
+    - name: db
+      protocol: TCP
+      # as per the official image documentation
+      port: 27017
+      targetPort: 27017

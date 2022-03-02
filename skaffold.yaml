@@ -33,3 +33,13 @@ build:
         manual:
           - src: '**/*.js'
             dest: .
+    - image: shreyanshshrey/ticketing-app-tickets
+      context: tickets
+      docker:
+        dockerfile: Dockerfile
+      # Describes that whenever there is changes in one of the 'src/**/*.ts' files, we do not
+      # need to build image from scratch and throw the changes directly into the pod
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
