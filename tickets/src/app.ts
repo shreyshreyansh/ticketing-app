@@ -11,6 +11,7 @@ import { errorHandler, NotFoundError, currentUser } from '@k8stickets/common';
 
 import { createTicketRouter } from './routes/new';
 import { showTicketRouter } from './routes/show';
+import { indexTicketRouter } from './routes';
 
 const app = express();
 
@@ -55,6 +56,7 @@ app.use(
 
 app.use(currentUser);
 
+app.use(indexTicketRouter);
 app.use(createTicketRouter);
 app.use(showTicketRouter);
 
